@@ -26,7 +26,7 @@ public class Main {
     }
 
     @Test
-    public void shouldAddToDos() throws Exception {
+    public void shouldAddToDosAndRemove() throws Exception {
         driver.get("http://test-automation-dojo.com/todo");
 
         WebElement username = driver.findElement(By.id("username"));
@@ -37,20 +37,26 @@ public class Main {
         password.sendKeys("ninja");
         signIn.click();
 
-        WebElement toDo = driver.findElement(By.className("new-todo"));
-        toDo.sendKeys("buy milk");
-        toDo.sendKeys(Keys.RETURN);
+        addToDo("buy milk");
+        //addToDo("buy vegemite");
+        //addToDo("make delicious milkshake!");
 
-        WebElement toDo2 = driver.findElement(By.className("new-todo"));
-        toDo2.sendKeys("buy vegemite");
-        toDo2.sendKeys(Keys.RETURN);
+        // Remove
+        WebElement destroy = driver.findElement(By.className("destroy"));
+        destroy.click();
 
-        WebElement toDo3 = driver.findElement(By.className("new-todo"));
-        toDo3.sendKeys("make delicious milkshake!");
-        toDo3.sendKeys(Keys.RETURN);
+        //toDo.sendKeys(s);
+        //toDo.sendKeys(Keys.RETURN);
 
-        assertThat(currentCounter(), equalTo("3"));
+        assertThat(currentCounter(), equalTo("0"));
     }
+
+    private void addToDo(String s) {
+        WebElement toDo = driver.findElement(By.className("new-todo"));
+        toDo.sendKeys(s);
+        toDo.sendKeys(Keys.RETURN);
+    }
+
 
     private String currentCounter() {
         return driver.findElement(By.cssSelector(".todo-count > strong")).getText();
