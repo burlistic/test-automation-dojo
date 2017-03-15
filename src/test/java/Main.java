@@ -51,6 +51,36 @@ public class Main {
         assertThat(currentCounter(), equalTo("0"));
     }
 
+
+    @Test
+    public void shouldAddToDosAndMarkAsDone() throws Exception {
+        driver.get("http://test-automation-dojo.com/todo");
+
+        WebElement username = driver.findElement(By.id("username"));
+        WebElement password = driver.findElement(By.id("password"));
+        WebElement signIn = driver.findElement(By.id("sign-in"));
+
+        username.sendKeys("toby");
+        password.sendKeys("ninja");
+        signIn.click();
+
+        addToDo("buy milk");
+        //addToDo("buy vegemite");
+        //addToDo("make delicious milkshake!");
+
+        // Remove
+        WebElement input = driver.findElement(By.className("toggle"));
+        input.click();
+
+        //toDo.sendKeys(s);
+        //toDo.sendKeys(Keys.RETURN);
+
+        assertThat(currentCounter(), equalTo("0"));
+    }
+
+    //...keysToSend: "rahhh"
+
+
     private void addToDo(String s) {
         WebElement toDo = driver.findElement(By.className("new-todo"));
         toDo.sendKeys(s);
