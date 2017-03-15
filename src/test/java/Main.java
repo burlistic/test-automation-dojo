@@ -5,6 +5,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class Main {
@@ -43,7 +44,7 @@ public class Main {
 
         // Remove
         WebElement destroy = driver.findElement(By.className("destroy"));
-        destroy.click();
+        destroy.click(); //...keysToSend: "" // uee when item hidden?
 
         //toDo.sendKeys(s);
         //toDo.sendKeys(Keys.RETURN);
@@ -78,7 +79,24 @@ public class Main {
         assertThat(currentCounter(), equalTo("0"));
     }
 
-    //...keysToSend: "rahhh"
+    @Test
+    public void failedLoginShouldDenyAccess() throws Exception {
+        driver.get("http://test-automation-dojo.com/todo");
+
+        WebElement username = driver.findElement(By.id("username"));
+        WebElement password = driver.findElement(By.id("password"));
+        WebElement signIn = driver.findElement(By.id("sign-in"));
+
+        username.sendKeys("ran");
+        password.sendKeys("bah");
+        signIn.click();
+
+        WebElement error = driver.findElement(By.id("error"));
+
+        Thread.sleep(4000);
+
+        assertThat(error.getText(), equalTo("Invalid credentials"));
+    }
 
 
     private void addToDo(String s) {
